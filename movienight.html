@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie-Night - មើលភាពយន្តគ្រប់ប្រភេទ</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0a0e17;
+            color: #f0f4fa;
+            padding: 0 20px 40px;
+            min-height: 100vh;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== HEADER / NAVBAR ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #1f2a3a;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+        .logo i {
+            -webkit-text-fill-color: #f5576c;
+            margin-right: 8px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #a0b4c8;
+            transition: 0.3s;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+        }
+        .search-box {
+            background: #1a2536;
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #2a3a50;
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            width: 140px;
+        }
+        .search-box i {
+            color: #6a7f9b;
+        }
+
+        /* ===== CATEGORY FILTERS ===== */
+        .filters {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 30px 0 20px;
+        }
+        .filter-btn {
+            padding: 8px 24px;
+            border-radius: 30px;
+            border: 1px solid #2a3a50;
+            background: transparent;
+            color: #a0b4c8;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #f5576c;
+            border-color: #f5576c;
+            color: #fff;
+            box-shadow: 0 0 20px rgba(245, 87, 108, 0.3);
+        }
+
+        /* ===== MOVIE GRID ===== */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 28px;
+            margin-top: 15px;
+        }
+        .movie-card {
+            background: #141b2b;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #1f2a3a;
+        }
+        .movie-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+            border-color: #f5576c;
+        }
+        .movie-card .poster {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            background: linear-gradient(145deg, #1f2a3a, #0d1420);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: #3a4a62;
+            position: relative;
+        }
+        .movie-card .poster .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #f5576c;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .movie-card .info {
+            padding: 16px 14px 18px;
+        }
+        .movie-card .info h4 {
+            font-size: 16px;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .movie-card .info .meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: #7a8ba3;
+        }
+        .movie-card .info .meta span i {
+            margin-right: 4px;
+            color: #f5576c;
+        }
+
+        /* ===== VIDEO MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal-box {
+            background: #101826;
+            max-width: 880px;
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            border: 1px solid #2a3a50;
+            animation: fadeUp 0.4s ease;
+        }
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .modal-header {
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0d1420;
+            border-bottom: 1px solid #1f2a3a;
+        }
+        .modal-header h3 {
+            font-size: 20px;
+        }
+        .modal-header .close-modal {
+            background: none;
+            border: none;
+            color: #a0b4c8;
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .modal-header .close-modal:hover {
+            color: #f5576c;
+            transform: rotate(90deg);
+        }
+        .modal-body {
+            padding: 20px;
+        }
+        .modal-body video {
+            width: 100%;
+            border-radius: 12px;
+            background: #000;
+            max-height: 500px;
+            outline: none;
+        }
+        .modal-body .film-desc {
+            margin-top: 16px;
+            color: #b0c4d8;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .modal-body .film-desc strong {
+            color: #fff;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .search-box input {
+                width: 100%;
+            }
+            .movie-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 16px;
+            }
+            .modal-box {
+                margin: 10px;
+            }
+            .modal-body video {
+                max-height: 250px;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f5576c;
+            border-radius: 10px;
+        }
+
+        /* Empty state */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #6a7f9b;
+            font-size: 18px;
+        }
+        .no-results i {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar">
+        <div class="logo">
+            <i class="fas fa-film"></i> Movie-Night
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active"><i class="fas fa-home"></i> ទំព័រដើម</a>
+            <a href="#"><i class="fas fa-tv"></i> ស៊េរី</a>
+            <a href="#"><i class="fas fa-video"></i> ភាពយន្ត</a>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="ស្វែងរក..." id="searchInput" onkeyup="filterMovies()" />
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== CATEGORY FILTERS ===== -->
+    <div class="filters" id="filterContainer">
+        <button class="filter-btn active" data-category="all" onclick="setFilter('all')">ទាំងអស់</button>
+        <button class="filter-btn" data-category="anime" onclick="setFilter('anime')"><i class="fas fa-dragon"></i> Anime</button>
+        <button class="filter-btn" data-category="chinese" onclick="setFilter('chinese')"><i class="fas fa-temple"></i> ចិន</button>
+        <button class="filter-btn" data-category="hollywood" onclick="setFilter('hollywood')"><i class="fas fa-globe-americas"></i> ហូលីវូដ</button>
+    </div>
+
+    <!-- ===== MOVIE GRID ===== -->
+    <div class="movie-grid" id="movieGrid">
+        <!-- Movies will be rendered by JavaScript -->
+    </div>
+
+    <!-- ===== VIDEO MODAL ===== -->
+    <div class="modal-overlay" id="videoModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modalTitle">ចំណងជើងភាពយន្ត</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <video id="videoPlayer" controls autoplay>
+                    <source src="" type="video/mp4" />
+                    កម្មវិធីរុករករបស់អ្នកមិនគាំទ្រវីដេអូទេ។
+                </video>
+                <div class="film-desc" id="modalDesc">
+                    <strong>ប្រភេទ៖</strong> <span id="modalGenre">-</span><br />
+                    <span id="modalFullDesc">សេចក្តីពិពណ៌នាសង្ខេបអំពីរឿងនេះ...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        //  DATA: បញ្ជីភាពយន្ត (ប្រឌិត) - សូមជំនួសវីដេអូតាមអាជ្ញាប័ណ្ណរបស់អ្នក
+        // ================================================================
+        const movies = [{
+            id: 1,
+            title: "Shadows of Tokyo",
+            category: "anime",
+            genre: "Action, Sci-Fi",
+            posterEmoji: "⚔️",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", // Public domain test video
+            description: "នៅទីក្រុងតូក្យូឆ្នាំ 2042 ពួកនីណ្ចាជំនាន់ថ្មីត្រូវតែប្រយុទ្ធប្រឆាំងនឹងប្រព័ន្ធ AI ដែលគ្រប់គ្រងមនុស្សជាតិ។"
+        }, {
+            id: 2,
+            title: "The Dragon's Path",
+            category: "chinese",
+            genre: "Wuxia, Fantasy",
+            posterEmoji: "🐉",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            description: "ដំណើរផ្សងព្រេងរបស់អ្នកកាន់ដាវក្នុងរជ្ជកាលរាជវង្សថាង ដើម្បីស្វែងរកគ្រឿងឥស្សរិយយសទាំង ៣ នៃអមតៈ។"
+        }, {
+            id: 3,
+            title: "Neon Riders",
+            category: "hollywood",
+            genre: "Sci-Fi, Thriller",
+            posterEmoji: "🏍️",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            description: "ក្នុងឆ្នាំ 2087 ក្រុមអ្នកជិះម៉ូតូចោរកម្មត្រូវជួយសង្គ្រោះទីក្រុងដែលជាប់អន្ទាក់ក្នុងការពិតនិម្មិត (Virtual Reality)។"
+        }, {
+            id: 4,
+            title: "Sakura Blossom",
+            category: "anime",
+            genre: "Romance, Drama",
+            posterEmoji: "🌸",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            description: "រឿងរ៉ាវស្នេហាដ៏ទន់ភ្លន់រវាងក្មេងស្រីម្នាក់ដែលអាចមើលឃើញវិញ្ញាណ និងយុវជនម្នាក់ដែលបាត់បង់ការចងចាំ។"
+        }, {
+            id: 5,
+            title: "Kung Fu Masters",
+            category: "chinese",
+            genre: "Martial Arts",
+            posterEmoji: "🥋",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            description: "ចៅហ្វាយក្បាច់គុណ ៣ សាលាប្រកួតប្រជែងគ្នាដើម្បីជ្រើសរើសអ្នកស្នងមរតកដ៏ខ្លាំងក្លានៃវត្តសៅលីន។"
+        }, {
+            id: 6,
+            title: "Galaxy Wars",
+            category: "hollywood",
+            genre: "Adventure, Space",
+            posterEmoji: "🚀",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            description: "កងនាវាអវកាសចុងក្រោយរបស់មនុស្សជាតិត្រូវប្រយុទ្ធនឹងអាណាចក្រជនបរទេសដើម្បីស្វែងរកភពផែនដីថ្មី។"
+        }, {
+            id: 7,
+            title: "Ghost Hunters",
+            category: "anime",
+            genre: "Horror, Mystery",
+            posterEmoji: "👻",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            description: "ក្រុមសិស្សវិទ្យាល័យបង្កើតក្លឹបស្វែងរកអារក្ស តែបែរជាជួបប្រទះនឹងអាថ៌កំបាំងឆ្កួតៗនៅក្នុងសាលាចាស់បោះបង់។"
+        }, {
+            id: 8,
+            title: "The Last Emperor",
+            category: "chinese",
+            genre: "History, Drama",
+            posterEmoji: "🏯",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            description: "ជីវិតរបស់អធិរាជចិនចុងក្រោយនៅក្នុងរាជវាំងហាមប្រាម និងការដួលរលំនៃរាជវង្សចុងក្រោយ។"
+        }, {
+            id: 9,
+            title: "Speed Chase",
+            category: "hollywood",
+            genre: "Action, Crime",
+            posterEmoji: "🚗",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            description: "អតីតអ្នកបើករថយន្តប្រណាំងត្រូវបង្ខំចិត្តវិលមករកផ្លូវចាស់ដើម្បីជួយប៉ូលីសចាប់មេខ្លោងឧក្រិដ្ឋកម្មក្នុងការដេញតាមផ្លូវហាយវេ។"
+        }, {
+            id: 10,
+            title: "Mecha Revolution",
+            category: "anime",
+            genre: "Mecha, Sci-Fi",
+            posterEmoji: "🤖",
+            videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+            description: "មនុស្សវ័យក្មេងម្នាក់រកឃើញយន្តហោះមេកាដ៏បុរាណមួយ ហើយត្រូវឡើងជិះវាដើម្បីការពារភពផែនដីពីការឈ្លានពានរបស់មនុស្សយន្តក្រៅភព។"
+        }];
+
+        // ================================================================
+        //  RENDER FUNCTIONS
+        // ================================================================
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function renderMovies(filter = 'all', search = '') {
+            const grid = document.getElementById('movieGrid');
+            const filtered = movies.filter(m => {
+                const matchCategory = filter === 'all' || m.category === filter;
+                const matchSearch = m.title.toLowerCase().includes(search.toLowerCase()) ||
+                    m.genre.toLowerCase().includes(search.toLowerCase());
+                return matchCategory && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="no-results"><i class="fas fa-film"></i>រកមិនឃើញភាពយន្តទេ! សូមសាកល្បងពាក្យផ្សេង។</div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(m => `
+                    <div class="movie-card" onclick="openModal('${m.id}')">
+                        <div class="poster">
+                            ${m.posterEmoji}
+                            <span class="badge">${m.category === 'anime' ? 'Anime' : m.category === 'chinese' ? 'ចិន' : 'Hollywood'}</span>
+                        </div>
+                        <div class="info">
+                            <h4>${m.title}</h4>
+                            <div class="meta">
+                                <span><i class="fas fa-tag"></i> ${m.genre}</span>
+                                <span><i class="fas fa-play-circle"></i> មើល</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        // ================================================================
+        //  FILTER & SEARCH
+        // ================================================================
+        function setFilter(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === category);
+            });
+            renderMovies(currentFilter, currentSearch);
+        }
+
+        function filterMovies() {
+            const input = document.getElementById('searchInput');
+            currentSearch = input.value.trim();
+            renderMovies(currentFilter, currentSearch);
+        }
+
+        // ================================================================
+        //  MODAL (VIDEO PLAYER)
+        // ================================================================
+        function openModal(id) {
+            const movie = movies.find(m => m.id == id);
+            if (!movie) return;
+
+            const modal = document.getElementById('videoModal');
+            document.getElementById('modalTitle').textContent = movie.title;
+            document.getElementById('modalGenre').textContent = movie.genre;
+            document.getElementById('modalFullDesc').textContent = movie.description;
+
+            const video = document.getElementById('videoPlayer');
+            video.src = movie.videoUrl;
+            video.load();
+            modal.classList.add('open');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('videoPlayer');
+            video.pause();
+            video.src = '';
+            modal.classList.remove('open');
+        }
+
+        // Close modal when clicking overlay background
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // ================================================================
+        //  INIT
+        // ================================================================
+        renderMovies('all', '');
+    </script>
+
+</body>
+</html>
