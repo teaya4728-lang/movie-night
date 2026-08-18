@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movie-Night - មើលភាពយន្តគ្រប់ប្រភេទ</title>
+    <title>Movie Night - មើលភាពយន្តគ្រប់ប្រភេទ</title>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
@@ -14,12 +14,79 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
-            background-color: #0a0e17;
-            color: #f0f4fa;
-            padding: 0 20px 40px;
             min-height: 100vh;
+            padding: 0 20px 40px;
+            color: #f0f4fa;
+            background: linear-gradient(135deg, #0b0e1a 0%, #1a1f35 50%, #0d1025 100%);
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* ===== STAR BACKGROUND (CSS only) ===== */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::before {
+            background-image:
+                radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+                radial-gradient(2px 2px at 50px 160px, #ddd, transparent),
+                radial-gradient(2px 2px at 90px 40px, #fff, transparent),
+                radial-gradient(2px 2px at 130px 80px, #fff, transparent),
+                radial-gradient(2px 2px at 160px 30px, #ddd, transparent),
+                radial-gradient(2px 2px at 200px 120px, #eee, transparent),
+                radial-gradient(2px 2px at 250px 50px, #fff, transparent),
+                radial-gradient(2px 2px at 300px 90px, #ddd, transparent),
+                radial-gradient(2px 2px at 350px 30px, #eee, transparent),
+                radial-gradient(2px 2px at 400px 150px, #fff, transparent),
+                radial-gradient(2px 2px at 450px 70px, #eee, transparent),
+                radial-gradient(2px 2px at 500px 40px, #fff, transparent),
+                radial-gradient(2px 2px at 550px 110px, #ddd, transparent),
+                radial-gradient(2px 2px at 600px 60px, #eee, transparent);
+            background-size: 650px 200px;
+            opacity: 0.6;
+        }
+        body::after {
+            background-image:
+                radial-gradient(1px 1px at 10px 10px, #fff, transparent),
+                radial-gradient(1px 1px at 70px 150px, #eee, transparent),
+                radial-gradient(1px 1px at 120px 20px, #fff, transparent),
+                radial-gradient(1px 1px at 180px 100px, #ddd, transparent),
+                radial-gradient(1px 1px at 230px 180px, #fff, transparent),
+                radial-gradient(1px 1px at 280px 60px, #eee, transparent),
+                radial-gradient(1px 1px at 330px 130px, #fff, transparent),
+                radial-gradient(1px 1px at 380px 20px, #ddd, transparent),
+                radial-gradient(1px 1px at 430px 170px, #fff, transparent),
+                radial-gradient(1px 1px at 480px 90px, #eee, transparent),
+                radial-gradient(1px 1px at 530px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 580px 140px, #ddd, transparent);
+            background-size: 600px 200px;
+            opacity: 0.4;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        /* ===== MAIN CONTENT (above background) ===== */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         a {
             text-decoration: none;
             color: inherit;
@@ -30,58 +97,76 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #1f2a3a;
+            padding: 22px 0 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             flex-wrap: wrap;
             gap: 15px;
+            backdrop-filter: blur(4px);
         }
         .logo {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 800;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -0.5px;
+            letter-spacing: 0px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .logo i {
             -webkit-text-fill-color: #f5576c;
-            margin-right: 8px;
+            font-size: 30px;
         }
         .nav-links {
             display: flex;
-            gap: 20px;
+            gap: 24px;
             align-items: center;
             flex-wrap: wrap;
         }
         .nav-links a {
-            color: #a0b4c8;
+            color: #b0c4d8;
             transition: 0.3s;
             font-weight: 500;
             font-size: 15px;
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
         }
         .nav-links a:hover,
         .nav-links a.active {
             color: #ffffff;
+            border-bottom-color: #f5576c;
         }
         .search-box {
-            background: #1a2536;
-            padding: 8px 16px;
-            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(6px);
+            padding: 8px 18px;
+            border-radius: 40px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            border: 1px solid #2a3a50;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
+        }
+        .search-box:focus-within {
+            border-color: #f5576c;
+            box-shadow: 0 0 20px rgba(245, 87, 108, 0.15);
         }
         .search-box input {
             background: transparent;
             border: none;
             outline: none;
             color: #fff;
-            width: 140px;
+            width: 150px;
+            font-size: 14px;
+        }
+        .search-box input::placeholder {
+            color: #7a8ba3;
         }
         .search-box i {
-            color: #6a7f9b;
+            color: #7a8ba3;
+            font-size: 14px;
         }
 
         /* ===== CATEGORY FILTERS ===== */
@@ -89,46 +174,61 @@
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
-            margin: 30px 0 20px;
+            margin: 35px 0 25px;
         }
         .filter-btn {
-            padding: 8px 24px;
-            border-radius: 30px;
-            border: 1px solid #2a3a50;
-            background: transparent;
-            color: #a0b4c8;
+            padding: 10px 28px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(4px);
+            color: #b0c4d8;
             cursor: pointer;
             font-weight: 600;
             font-size: 14px;
             transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .filter-btn:hover,
+        .filter-btn:hover {
+            background: rgba(245, 87, 108, 0.15);
+            border-color: #f5576c;
+            color: #fff;
+            transform: translateY(-2px);
+        }
         .filter-btn.active {
             background: #f5576c;
             border-color: #f5576c;
             color: #fff;
-            box-shadow: 0 0 20px rgba(245, 87, 108, 0.3);
+            box-shadow: 0 0 30px rgba(245, 87, 108, 0.3);
+        }
+        .filter-btn i {
+            font-size: 14px;
         }
 
         /* ===== MOVIE GRID ===== */
         .movie-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-            gap: 28px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 10px;
         }
         .movie-card {
-            background: #141b2b;
-            border-radius: 16px;
+            background: rgba(20, 27, 43, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease;
             cursor: pointer;
-            border: 1px solid #1f2a3a;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            position: relative;
         }
         .movie-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
-            border-color: #f5576c;
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(245, 87, 108, 0.25);
+            border-color: rgba(245, 87, 108, 0.4);
         }
         .movie-card .poster {
             width: 100%;
@@ -137,41 +237,51 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 50px;
+            font-size: 60px;
             color: #3a4a62;
             position: relative;
+            transition: 0.3s;
+        }
+        .movie-card:hover .poster {
+            filter: brightness(1.1);
         }
         .movie-card .poster .badge {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #f5576c;
-            padding: 4px 12px;
-            border-radius: 20px;
+            top: 14px;
+            right: 14px;
+            background: rgba(245, 87, 108, 0.9);
+            backdrop-filter: blur(4px);
+            padding: 5px 14px;
+            border-radius: 30px;
             font-size: 11px;
             font-weight: 700;
             color: #fff;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .movie-card .info {
-            padding: 16px 14px 18px;
+            padding: 18px 16px 20px;
         }
         .movie-card .info h4 {
-            font-size: 16px;
-            margin-bottom: 6px;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 8px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: #f0f4fa;
         }
         .movie-card .info .meta {
             display: flex;
             justify-content: space-between;
             font-size: 13px;
-            color: #7a8ba3;
+            color: #8a9bb3;
         }
         .movie-card .info .meta span i {
-            margin-right: 4px;
+            margin-right: 6px;
             color: #f5576c;
+            font-size: 13px;
         }
 
         /* ===== VIDEO MODAL ===== */
@@ -182,8 +292,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(6px);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(16px);
             z-index: 999;
             justify-content: center;
             align-items: center;
@@ -193,19 +303,20 @@
             display: flex;
         }
         .modal-box {
-            background: #101826;
+            background: rgba(16, 24, 38, 0.95);
+            backdrop-filter: blur(20px);
             max-width: 880px;
             width: 100%;
-            border-radius: 24px;
+            border-radius: 28px;
             overflow: hidden;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
-            border: 1px solid #2a3a50;
-            animation: fadeUp 0.4s ease;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            animation: fadeUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         @keyframes fadeUp {
             0% {
                 opacity: 0;
-                transform: scale(0.95) translateY(20px);
+                transform: scale(0.95) translateY(30px);
             }
             100% {
                 opacity: 1;
@@ -213,67 +324,74 @@
             }
         }
         .modal-header {
-            padding: 18px 24px;
+            padding: 20px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #0d1420;
-            border-bottom: 1px solid #1f2a3a;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
         .modal-header h3 {
-            font-size: 20px;
+            font-size: 22px;
+            font-weight: 700;
         }
         .modal-header .close-modal {
             background: none;
             border: none;
-            color: #a0b4c8;
-            font-size: 28px;
+            color: #b0c4d8;
+            font-size: 32px;
             cursor: pointer;
             transition: 0.3s;
+            line-height: 1;
         }
         .modal-header .close-modal:hover {
             color: #f5576c;
             transform: rotate(90deg);
         }
         .modal-body {
-            padding: 20px;
+            padding: 24px 28px 30px;
         }
         .modal-body video {
             width: 100%;
-            border-radius: 12px;
+            border-radius: 16px;
             background: #000;
             max-height: 500px;
             outline: none;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
         }
         .modal-body .film-desc {
-            margin-top: 16px;
-            color: #b0c4d8;
+            margin-top: 20px;
+            color: #c0d0e0;
             font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
         .modal-body .film-desc strong {
             color: #fff;
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 600px) {
+        @media (max-width: 640px) {
             .navbar {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 12px;
+                gap: 14px;
             }
             .search-box input {
                 width: 100%;
             }
             .movie-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 16px;
+                gap: 18px;
             }
             .modal-box {
                 margin: 10px;
             }
             .modal-body video {
-                max-height: 250px;
+                max-height: 220px;
+            }
+            .filter-btn {
+                padding: 8px 18px;
+                font-size: 13px;
             }
         }
 
@@ -289,67 +407,77 @@
             border-radius: 10px;
         }
 
-        /* Empty state */
+        /* ===== EMPTY STATE ===== */
         .no-results {
             grid-column: 1 / -1;
             text-align: center;
-            padding: 60px 20px;
-            color: #6a7f9b;
+            padding: 70px 20px;
+            color: #8a9bb3;
             font-size: 18px;
         }
         .no-results i {
-            font-size: 48px;
+            font-size: 56px;
             display: block;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
+            color: #4a5a72;
         }
     </style>
 </head>
 <body>
-
-    <!-- ===== NAVBAR ===== -->
-    <header class="navbar">
-        <div class="logo">
-            <i class="fas fa-film"></i> Movie-Night
-        </div>
-        <div class="nav-links">
-            <a href="#" class="active"><i class="fas fa-home"></i> ទំព័រដើម</a>
-            <a href="#"><i class="fas fa-tv"></i> ស៊េរី</a>
-            <a href="#"><i class="fas fa-video"></i> ភាពយន្ត</a>
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="ស្វែងរក..." id="searchInput" onkeyup="filterMovies()" />
+    <div class="container">
+        <!-- ===== NAVBAR ===== -->
+        <header class="navbar">
+            <div class="logo">
+                <i class="fas fa-film"></i> Movie Night
             </div>
-        </div>
-    </header>
-
-    <!-- ===== CATEGORY FILTERS ===== -->
-    <div class="filters" id="filterContainer">
-        <button class="filter-btn active" data-category="all" onclick="setFilter('all')">ទាំងអស់</button>
-        <button class="filter-btn" data-category="anime" onclick="setFilter('anime')"><i class="fas fa-dragon"></i> Anime</button>
-        <button class="filter-btn" data-category="chinese" onclick="setFilter('chinese')"><i class="fas fa-temple"></i> ចិន</button>
-        <button class="filter-btn" data-category="hollywood" onclick="setFilter('hollywood')"><i class="fas fa-globe-americas"></i> ហូលីវូដ</button>
-    </div>
-
-    <!-- ===== MOVIE GRID ===== -->
-    <div class="movie-grid" id="movieGrid">
-        <!-- Movies will be rendered by JavaScript -->
-    </div>
-
-    <!-- ===== VIDEO MODAL ===== -->
-    <div class="modal-overlay" id="videoModal">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3 id="modalTitle">ចំណងជើងភាពយន្ត</h3>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div class="nav-links">
+                <a href="#" class="active"><i class="fas fa-home"></i> ទំព័រដើម</a>
+                <a href="#"><i class="fas fa-cubes"></i> Anime 3D/2D</a>
+                <a href="#"><i class="fas fa-video"></i> ភាពយន្ត</a>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="ស្វែងរក..." id="searchInput" onkeyup="filterMovies()" />
+                </div>
             </div>
-            <div class="modal-body">
-                <video id="videoPlayer" controls autoplay>
-                    <source src="" type="video/mp4" />
-                    កម្មវិធីរុករករបស់អ្នកមិនគាំទ្រវីដេអូទេ។
-                </video>
-                <div class="film-desc" id="modalDesc">
-                    <strong>ប្រភេទ៖</strong> <span id="modalGenre">-</span><br />
-                    <span id="modalFullDesc">សេចក្តីពិពណ៌នាសង្ខេបអំពីរឿងនេះ...</span>
+        </header>
+
+        <!-- ===== CATEGORY FILTERS ===== -->
+        <div class="filters" id="filterContainer">
+            <button class="filter-btn active" data-category="all" onclick="setFilter('all')">
+                <i class="fas fa-th-large"></i> ទាំងអស់
+            </button>
+            <button class="filter-btn" data-category="anime" onclick="setFilter('anime')">
+                <i class="fas fa-flag"></i> Japan Anime
+            </button>
+            <button class="filter-btn" data-category="chinese" onclick="setFilter('chinese')">
+                <i class="fas fa-dragon"></i> China Donghua
+            </button>
+            <button class="filter-btn" data-category="hollywood" onclick="setFilter('hollywood')">
+                <i class="fas fa-film"></i> ភាពយន្ត
+            </button>
+        </div>
+
+        <!-- ===== MOVIE GRID ===== -->
+        <div class="movie-grid" id="movieGrid">
+            <!-- JavaScript will render -->
+        </div>
+
+        <!-- ===== VIDEO MODAL ===== -->
+        <div class="modal-overlay" id="videoModal">
+            <div class="modal-box">
+                <div class="modal-header">
+                    <h3 id="modalTitle">ចំណងជើងភាពយន្ត</h3>
+                    <button class="close-modal" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <video id="videoPlayer" controls autoplay>
+                        <source src="" type="video/mp4" />
+                        កម្មវិធីរុករករបស់អ្នកមិនគាំទ្រវីដេអូទេ។
+                    </video>
+                    <div class="film-desc" id="modalDesc">
+                        <strong>ប្រភេទ៖</strong> <span id="modalGenre">-</span><br />
+                        <span id="modalFullDesc">សេចក្តីពិពណ៌នាសង្ខេបអំពីរឿងនេះ...</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -447,6 +575,13 @@
         let currentFilter = 'all';
         let currentSearch = '';
 
+        function getBadgeText(category) {
+            if (category === 'anime') return 'Japan Anime';
+            if (category === 'chinese') return 'China Donghua';
+            if (category === 'hollywood') return 'ភាពយន្ត';
+            return category;
+        }
+
         function renderMovies(filter = 'all', search = '') {
             const grid = document.getElementById('movieGrid');
             const filtered = movies.filter(m => {
@@ -465,7 +600,7 @@
                     <div class="movie-card" onclick="openModal('${m.id}')">
                         <div class="poster">
                             ${m.posterEmoji}
-                            <span class="badge">${m.category === 'anime' ? 'Anime' : m.category === 'chinese' ? 'ចិន' : 'Hollywood'}</span>
+                            <span class="badge">${getBadgeText(m.category)}</span>
                         </div>
                         <div class="info">
                             <h4>${m.title}</h4>
@@ -540,6 +675,5 @@
         // ================================================================
         renderMovies('all', '');
     </script>
-
 </body>
 </html>
